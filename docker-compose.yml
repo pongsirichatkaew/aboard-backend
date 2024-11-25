@@ -7,10 +7,25 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    env_file:
+      - ./.env
     volumes:
       - .:/app
-      - /app/node_modules
-    environment:
-      NODE_ENV: development
-      DATABASE_FILE: /app/forum.db
     command: npm run start:dev
+    depends_on:
+      - aboard-db
+  aboard-db:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: aboard_admin
+      POSTGRES_PASSWORD: aboard_password
+      POSTGRES_DB: aboard_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
+    driver: local
