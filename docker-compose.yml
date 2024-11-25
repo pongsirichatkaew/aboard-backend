@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  aboard-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      DATABASE_FILE: /app/forum.db
+    command: npm run start:dev
