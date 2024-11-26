@@ -9,7 +9,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signToken<T>(userId: number) {
+  async signToken(userId: number) {
     const jwtSignOption: JwtSignOptions = {
       expiresIn: parseInt(
         this.configService.get('JWT_ACCESS_TOKEN_TTL') ?? '86400',

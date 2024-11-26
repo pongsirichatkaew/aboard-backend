@@ -71,7 +71,9 @@
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/main.ts",
-      "!src/**/*.module.ts"
+      "!src/**/*.module.ts",
+      "!src/**/*.guard.ts"
+
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
