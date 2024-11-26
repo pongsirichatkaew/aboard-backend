@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePostDto } from './dtos/create-post.dto';
-import { UpdatePostDto } from './dtos/update-post.dto';
-import { Post } from './entities/post.entity';
+import { CreatePostDto } from '../dtos/create-post.dto';
+import { UpdatePostDto } from '../dtos/update-post.dto';
+import { Post } from '../entities/post.entity';
 
 @Injectable()
 export class PostsService {
@@ -18,8 +18,13 @@ export class PostsService {
 
   async findAll(): Promise<Post[]> {
     return this.postRepository.find({
-      relations: ['user'],
-      order: { createdAt: 'ASC' },
+      relations: ['user', 'comments', 'comments.user'],
+      order: {
+        createdAt: 'ASC',
+        comments: {
+          createdAt: 'ASC',
+        },
+      },
     });
   }
 
