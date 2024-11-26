@@ -6,11 +6,6 @@ import { UserService } from './users.service';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  getAllUsers() {
-    return this.userService.getAllUsers();
-  }
-
   @Post('sign-in')
   signIn(@Body() signInUserDto: SignInUserDto) {
     return this.userService.findOrCreate(signInUserDto);
