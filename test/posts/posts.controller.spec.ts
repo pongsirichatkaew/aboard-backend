@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccessTokenGuard } from 'src/auth/auth.guard';
 import { PostsController } from 'src/posts/posts.controller';
-import { PostsService } from 'src/posts/posts.service';
+import { PostsService } from 'src/posts/services/posts.service';
 
 describe('PostsController', () => {
   let postsController: PostsController;
