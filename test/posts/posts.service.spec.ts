@@ -2,7 +2,7 @@ import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Post } from 'src/posts/entities/post.entity';
-import { PostsService } from 'src/posts/posts.service';
+import { PostsService } from 'src/posts/services/posts.service';
 import { Repository } from 'typeorm';
 
 describe('PostsService', () => {
@@ -46,8 +46,13 @@ describe('PostsService', () => {
       const result = await postsService.findAll();
 
       expect(postRepository.find).toHaveBeenCalledWith({
-        relations: ['user'],
-        order: { createdAt: 'ASC' },
+        relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'ASC',
+          comments: {
+            createdAt: 'ASC',
+          },
+        },
       });
       expect(result).toEqual(mockPosts);
     });
