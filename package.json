@@ -71,7 +71,7 @@
       "!src/main.ts",
       "!src/**/*.module.ts"
     ],
-    "coverageDirectory": "../coverage",
+    "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }
 }
