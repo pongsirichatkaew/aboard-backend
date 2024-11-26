@@ -5,8 +5,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { PostComment } from './post-comment.entity';
 
 @Entity()
 export class Post {
@@ -28,4 +30,7 @@ export class Post {
   @ManyToOne(() => User)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => PostComment, (comment) => comment.post, { cascade: true })
+  comments: PostComment[];
 }
