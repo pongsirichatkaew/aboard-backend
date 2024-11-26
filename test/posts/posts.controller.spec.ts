@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccessTokenGuard } from 'src/auth/auth.guard';
 import { PostsController } from 'src/posts/posts.controller';
+import { PostCommentService } from 'src/posts/services/post-comment.service';
 import { PostsService } from 'src/posts/services/posts.service';
 
 describe('PostsController', () => {
   let postsController: PostsController;
+  let postCommentService: PostCommentService;
   let postsService: PostsService;
 
   beforeEach(async () => {
@@ -20,6 +22,12 @@ describe('PostsController', () => {
             delete: jest.fn(),
           },
         },
+        {
+          provide: PostCommentService,
+          useValue: {
+            addComment: jest.fn(),
+          },
+        },
       ],
     })
       .overrideGuard(AccessTokenGuard)
@@ -27,6 +35,7 @@ describe('PostsController', () => {
       .compile();
 
     postsController = module.get<PostsController>(PostsController);
+    postCommentService = module.get<PostCommentService>(PostCommentService);
     postsService = module.get<PostsService>(PostsService);
   });
 
@@ -96,6 +105,27 @@ describe('PostsController', () => {
 
       expect(postsService.delete).toHaveBeenCalledWith(
         postId,
+        mockUserData.sub,
+      );
+    });
+  });
+
+  describe('addComment', () => {
+    it('should create new comment on post', async () => {
+      const postId = 1;
+      const createCommentDto: any = {
+        message: 'message',
+      };
+      const mockUserData = { sub: 1 };
+      const mockPost = { id: 1, ...createCommentDto };
+
+      postCommentService.addComment = jest.fn().mockResolvedValue(mockPost);
+
+      await postsController.addComment(postId, createCommentDto, mockUserData);
+
+      expect(postCommentService.addComment).toHaveBeenCalledWith(
+        postId,
+        createCommentDto,
         mockUserData.sub,
       );
     });
