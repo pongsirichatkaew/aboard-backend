@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../../src/users/entities/user.entity';
-import { UserService } from '../../src/users/users.service';
+import { User } from 'src/users/entities/user.entity';
+import { UserService } from 'src/users/users.service';
+import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 
 describe('UserService', () => {
   let userService: UserService;
+  let authService: AuthService;
   let userRepository: Repository<User>;
 
   beforeEach(async () => {
@@ -20,10 +22,17 @@ describe('UserService', () => {
             save: jest.fn(),
           },
         },
+        {
+          provide: AuthService,
+          useValue: {
+            signToken: jest.fn().mockReturnValue('token'),
+          },
+        },
       ],
     }).compile();
 
     userService = module.get<UserService>(UserService);
+    authService = module.get<AuthService>(AuthService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
@@ -73,7 +82,8 @@ describe('UserService', () => {
       expect(userRepository.findOne).toHaveBeenCalledWith({
         where: { username: 'test_1' },
       });
-      expect(result).toEqual(mockUser);
+      expect(authService.signToken).toHaveBeenCalled();
+      expect(result).toEqual({ accessToken: 'token' });
     });
 
     it('should create a new user if user is not found', async () => {
@@ -90,7 +100,8 @@ describe('UserService', () => {
         username: 'test_1',
       });
       expect(userRepository.save).toHaveBeenCalledWith(mockUser);
-      expect(result).toEqual(mockUser);
+      expect(authService.signToken).toHaveBeenCalled();
+      expect(result).toEqual({ accessToken: 'token' });
     });
   });
 });
