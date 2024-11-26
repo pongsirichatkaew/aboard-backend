@@ -14,13 +14,18 @@ import {
 import { UserData } from 'src/auth/auth.decorator';
 import { AccessTokenGuard } from 'src/auth/auth.guard';
 import { BoardUserData } from 'src/auth/auth.interface';
+import { CreatePostCommentDto } from './dtos/create-post-comment.dto';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { UpdatePostDto } from './dtos/update-post.dto';
-import { PostsService } from './posts.service';
+import { PostCommentService } from './services/post-comment.service';
+import { PostsService } from './services/posts.service';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postService: PostsService) {}
+  constructor(
+    private readonly postService: PostsService,
+    private readonly postCommentService: PostCommentService,
+  ) {}
 
   @Get()
   get() {
@@ -56,5 +61,20 @@ export class PostsController {
     @UserData() userData: BoardUserData,
   ) {
     return this.postService.delete(postId, userData.sub);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Post(':id/comments')
+  @HttpCode(HttpStatus.CREATED)
+  addComment(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createCommentDto: CreatePostCommentDto,
+    @UserData() userData: BoardUserData,
+  ) {
+    return this.postCommentService.addComment(
+      id,
+      createCommentDto,
+      userData.sub,
+    );
   }
 }
