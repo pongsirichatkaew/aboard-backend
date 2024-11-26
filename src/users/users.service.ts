@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import { SignInUserDto } from './dtos/signin-user.dto';
 import { User } from './entities/user.entity';
@@ -8,6 +9,7 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly authService: AuthService,
   ) {}
 
   async findByUsername(username: string): Promise<User | undefined> {
@@ -19,12 +21,16 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
-  async findOrCreate(signInUserDto: SignInUserDto): Promise<User> {
+  async findOrCreate(
+    signInUserDto: SignInUserDto,
+  ): Promise<{ accessToken: string }> {
     const { username } = signInUserDto;
     let user = await this.findByUsername(username);
     if (!user) {
       user = await this.create(username);
     }
-    return user;
+
+    const token = await this.authService.signToken(user.id);
+    return { accessToken: token };
   }
 }
