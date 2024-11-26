@@ -24,6 +24,7 @@
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^10.2.0",
+    "@nestjs/mapped-types": "^2.0.6",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "class-transformer": "^0.5.1",
@@ -73,7 +74,6 @@
       "!src/main.ts",
       "!src/**/*.module.ts",
       "!src/**/*.guard.ts"
-
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
