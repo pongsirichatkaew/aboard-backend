@@ -32,6 +32,11 @@ export class PostsController {
     return this.postService.findAll();
   }
 
+  @Get(':id')
+  getById(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.findOne(id);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
