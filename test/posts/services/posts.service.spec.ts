@@ -58,6 +58,31 @@ describe('PostsService', () => {
     });
   });
 
+  describe('findMe', () => {
+    it('should return all posts that own by this user', async () => {
+      const mockPosts = [mockPost];
+      postRepository.find = jest.fn().mockResolvedValue(mockPosts);
+
+      const result = await postsService.findMe(1);
+
+      expect(postRepository.find).toHaveBeenCalledWith({
+        where: {
+          user: {
+            id: 1,
+          },
+        },
+        relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
+      });
+      expect(result).toEqual(mockPosts);
+    });
+  });
+
   describe('findOne', () => {
     it('should return post that found', async () => {
       postRepository.findOne = jest.fn().mockResolvedValue(mockPost);

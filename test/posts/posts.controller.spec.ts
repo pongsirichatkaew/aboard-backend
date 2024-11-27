@@ -20,6 +20,7 @@ describe('PostsController', () => {
             create: jest.fn(),
             update: jest.fn(),
             delete: jest.fn(),
+            findMe: jest.fn(),
           },
         },
         {
@@ -51,7 +52,20 @@ describe('PostsController', () => {
     });
   });
 
-  describe('get', () => {
+  describe('getMe', () => {
+    it('should return all posts', async () => {
+      const mockUserData = { sub: 1 };
+      const mockPosts = [{ id: 1, title: 'Test Post' }];
+      postsService.findMe = jest.fn().mockResolvedValue(mockPosts);
+
+      const result = await postsController.getMe(mockUserData);
+
+      expect(postsService.findMe).toHaveBeenCalled();
+      expect(result).toEqual(mockPosts);
+    });
+  });
+
+  describe('getById', () => {
     it('should return all posts', async () => {
       const mockPost = { id: 1, title: 'Test Post' };
       postsService.findOne = jest.fn().mockResolvedValue(mockPost);
