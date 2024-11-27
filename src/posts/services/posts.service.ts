@@ -20,9 +20,9 @@ export class PostsService {
     return this.postRepository.find({
       relations: ['user', 'comments', 'comments.user'],
       order: {
-        createdAt: 'ASC',
+        createdAt: 'DESC',
         comments: {
-          createdAt: 'ASC',
+          createdAt: 'DESC',
         },
       },
     });
@@ -32,6 +32,12 @@ export class PostsService {
     const post = await this.postRepository.findOne({
       where: { id },
       relations: ['user', 'comments', 'comments.user'],
+      order: {
+        createdAt: 'DESC',
+        comments: {
+          createdAt: 'DESC',
+        },
+      },
     });
     if (!post) {
       throw new NotFoundException(`Post ${id} is not found`);

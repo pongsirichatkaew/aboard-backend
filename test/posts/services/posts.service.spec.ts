@@ -48,9 +48,9 @@ describe('PostsService', () => {
       expect(postRepository.find).toHaveBeenCalledWith({
         relations: ['user', 'comments', 'comments.user'],
         order: {
-          createdAt: 'ASC',
+          createdAt: 'DESC',
           comments: {
-            createdAt: 'ASC',
+            createdAt: 'DESC',
           },
         },
       });
@@ -67,6 +67,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
       expect(result).toEqual(mockPost);
     });
@@ -78,6 +84,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
     });
   });
@@ -117,6 +129,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
       expect(postRepository.save).toHaveBeenCalledWith({
         ...mockPost,
@@ -137,6 +155,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
       expect(postRepository.save).not.toHaveBeenCalled();
     });
@@ -152,6 +176,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
       expect(postRepository.remove).toHaveBeenCalledWith(mockPost);
     });
@@ -165,6 +195,12 @@ describe('PostsService', () => {
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
         relations: ['user', 'comments', 'comments.user'],
+        order: {
+          createdAt: 'DESC',
+          comments: {
+            createdAt: 'DESC',
+          },
+        },
       });
       expect(postRepository.remove).not.toHaveBeenCalled();
     });
