@@ -28,6 +28,23 @@ export class PostsService {
     });
   }
 
+  async findMe(userId: number): Promise<Post[]> {
+    return this.postRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+      relations: ['user', 'comments', 'comments.user'],
+      order: {
+        createdAt: 'DESC',
+        comments: {
+          createdAt: 'DESC',
+        },
+      },
+    });
+  }
+
   async findOne(id: number): Promise<Post> {
     const post = await this.postRepository.findOne({
       where: { id },

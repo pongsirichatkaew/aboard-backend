@@ -32,6 +32,12 @@ export class PostsController {
     return this.postService.findAll();
   }
 
+  @UseGuards(AccessTokenGuard)
+  @Get('/me')
+  getMe(@UserData() userData: BoardUserData) {
+    return this.postService.findMe(userData.sub);
+  }
+
   @Get(':id')
   getById(@Param('id', ParseIntPipe) id: number) {
     return this.postService.findOne(id);
