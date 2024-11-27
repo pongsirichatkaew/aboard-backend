@@ -23,7 +23,7 @@ export class UserService {
 
   async findOrCreate(
     signInUserDto: SignInUserDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; user: User }> {
     const { username } = signInUserDto;
     let user = await this.findByUsername(username);
     if (!user) {
@@ -31,6 +31,6 @@ export class UserService {
     }
 
     const token = await this.authService.signToken(user.id);
-    return { accessToken: token };
+    return { accessToken: token, user };
   }
 }
