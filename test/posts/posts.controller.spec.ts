@@ -51,6 +51,18 @@ describe('PostsController', () => {
     });
   });
 
+  describe('get', () => {
+    it('should return all posts', async () => {
+      const mockPost = { id: 1, title: 'Test Post' };
+      postsService.findOne = jest.fn().mockResolvedValue(mockPost);
+
+      const result = await postsController.getById(1);
+
+      expect(postsService.findOne).toHaveBeenCalled();
+      expect(result).toEqual(mockPost);
+    });
+  });
+
   describe('create', () => {
     it('should create new post', async () => {
       const createPostDto: any = {

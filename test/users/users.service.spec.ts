@@ -83,7 +83,13 @@ describe('UserService', () => {
         where: { username: 'test_1' },
       });
       expect(authService.signToken).toHaveBeenCalled();
-      expect(result).toEqual({ accessToken: 'token' });
+      expect(result).toEqual({
+        accessToken: 'token',
+        user: {
+          id: 1,
+          username: 'test_1',
+        },
+      });
     });
 
     it('should create a new user if user is not found', async () => {
@@ -101,7 +107,13 @@ describe('UserService', () => {
       });
       expect(userRepository.save).toHaveBeenCalledWith(mockUser);
       expect(authService.signToken).toHaveBeenCalled();
-      expect(result).toEqual({ accessToken: 'token' });
+      expect(result).toEqual({
+        accessToken: 'token',
+        user: {
+          id: 1,
+          username: 'test_1',
+        },
+      });
     });
   });
 });

@@ -66,7 +66,7 @@ describe('PostsService', () => {
 
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
       expect(result).toEqual(mockPost);
     });
@@ -77,7 +77,7 @@ describe('PostsService', () => {
       await expect(postsService.findOne(1)).rejects.toThrow(NotFoundException);
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
     });
   });
@@ -116,7 +116,7 @@ describe('PostsService', () => {
 
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
       expect(postRepository.save).toHaveBeenCalledWith({
         ...mockPost,
@@ -136,7 +136,7 @@ describe('PostsService', () => {
       );
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
       expect(postRepository.save).not.toHaveBeenCalled();
     });
@@ -151,7 +151,7 @@ describe('PostsService', () => {
 
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
       expect(postRepository.remove).toHaveBeenCalledWith(mockPost);
     });
@@ -164,7 +164,7 @@ describe('PostsService', () => {
       );
       expect(postRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
-        relations: ['user'],
+        relations: ['user', 'comments', 'comments.user'],
       });
       expect(postRepository.remove).not.toHaveBeenCalled();
     });
