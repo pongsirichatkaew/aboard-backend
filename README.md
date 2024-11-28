@@ -37,3 +37,17 @@ npm run start:dev
 ```
 
 Once running, the application should restart when changes to the **JavaScript** are detected.
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
+
+For coverage results
+```bash
+  npm run test:cov
+```
+
